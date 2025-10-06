@@ -1,0 +1,101 @@
+/* Global Styles */
+:root {
+  /* Color Palette */
+  --accent-color: #4caf50;
+
+  /* Background */
+  --background-color: black;
+  --foreground-color: #141516;
+  --border-color: #222426;
+
+  /* Text */
+  --text-color: #ddd;
+  --text-color-secondary: #aaa;
+
+  /* Font */
+  --font: "JetBrains Mono", Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 1.5rem 2rem 0;
+}
+
+main {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+  min-height: calc(100vh - 1.5rem); /* Set height relative to viewport */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--border-color);
+  border-radius: 32px 32px 0 0;
+}
+
+p {
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-color-secondary);
+}
+.foreground-text {
+  color: var(--text-color);
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: -1rem;
+  margin-bottom: 0.5rem;
+}
+.title h1 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
+
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--text-color) 40%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+h1 {
+  margin-bottom: 0.75rem;
+  margin-top: auto;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+h3, h4, h5, h6 {
+  font-weight: 500;
+  color: var(--text-color-secondary);
+  margin-bottom: 0.5rem;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 2px;
+  text-decoration-color: color-mix(in srgb, currentColor 20%, transparent);
+}
+a:hover,
+a:focus {
+  text-decoration: underline;
+  text-decoration-color: var(--button-bg-color);
+  text-decoration-thickness: 3px;
+  transition: text-decoration-color 0.4s ease,
+    text-decoration-thickness 0.4s ease;
+}

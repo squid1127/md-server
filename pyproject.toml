@@ -1,0 +1,25 @@
+[project]
+name = "md-server"
+version = "0.1.0"
+description = "A simpme markdown server"
+authors = [
+    {name = "squid1127"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.13, <4.0"
+dependencies = [
+    "fastapi[standard]",
+    "uvicorn[standard]",
+    "mistune",
+    "aiofiles",
+    "typer",
+    "python-dotenv",
+    "motor",
+    "beanie"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

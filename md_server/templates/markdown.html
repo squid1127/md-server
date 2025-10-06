@@ -1,0 +1,8 @@
+<!-- md-server - Markdown Document -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <section class="content">
+    {{ markdown_content | safe }}
+  </section>
+{% endblock %}

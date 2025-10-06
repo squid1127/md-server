@@ -1,0 +1,38 @@
+<!-- md-server - Base Template -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ app_name }}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+
+    {# child templates can inject extra head tags (scripts, meta, etc) #}
+    {% block head %}{% endblock %}
+  </head>
+
+  <body>
+    <main>
+      <header class="title">
+        <h1><a href="/">{{ app_name + ' - ' + page_title if page_title else app_name }}</a></h1>
+      </header>
+      <div class="spacer"></div>
+
+      {# page-specific content will be injected here by child templates #}
+      {% block content %}
+      <!-- Default content (can be overridden) -->
+      <section class="hero">
+        <h1>{{ app_name }}</h1>
+        <p>A tiny markdown preview server.</p>
+      </section>
+      {% endblock %}
+    </main>
+  </body>
+</html>
