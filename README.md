@@ -2,6 +2,8 @@
 
 A tiny markdown preview server for your services.
 
+How much of this was AI generated? Too much.
+
 ## Features
 
 - Serve markdown files to users.
