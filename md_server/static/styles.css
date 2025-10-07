@@ -96,3 +96,25 @@ a:focus {
   transition: text-decoration-color 0.4s ease,
     text-decoration-thickness 0.4s ease;
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+th, td {
+  border: 1px solid var(--border-color);
+  padding: 0.5rem;
+  text-align: left;
+}
+th {
+  background-color: var(--foreground-color);
+}
+
+.admonition {
+  border-left: 4px solid var(--accent-color);
+  background-color: var(--foreground-color);
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+}
