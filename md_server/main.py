@@ -1,6 +1,6 @@
 """Main application module for the markdown server."""
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
 
@@ -46,11 +46,7 @@ logger.info(f"Starting {APP_NAME} v0.1.0")
 
 @app.get("/")
 async def read_root(request: Request):
-    """Render the index page using the Jinja2 base template.
-
-    FastAPI will provide the Request object which Jinja needs (for url_for
-    and request.path). We also pass a computed current_year used in the
-    footer.
+    """Render the index page using the HOME_PAGE markdown content.
     """
     logger.info(f"Home page requested from {request.client.host}")
     try:
@@ -61,6 +57,7 @@ async def read_root(request: Request):
 
 @app.get("/d/{md_id}")
 async def read_markdown(md_id: str, request: Request):
+    """Read and render a markdown document by its ID."""
     logger.info(f"Markdown document requested: {md_id} from {request.client.host}")
     
     try:
@@ -73,4 +70,21 @@ async def read_markdown(md_id: str, request: Request):
         return render_md_page(document.content, request=request, title=document.title)
     except Exception as e:
         logger.error(f"Error rendering markdown document {md_id}: {e}")
+        raise
+    
+@app.get("/raw/{md_id}")
+async def read_raw_markdown(md_id: str):
+    """Fetch the raw markdown content of a document by its ID."""
+    logger.info(f"Raw markdown requested: {md_id}")
+    
+    try:
+        from .db import get_markdown_document
+        document = await get_markdown_document(md_id)
+        if not document:
+            logger.warning(f"Document not found: {md_id}")
+            return {"error": "Document not found"}, 404
+        
+        return Response(content=document.content, media_type="text/markdown")
+    except Exception as e:
+        logger.error(f"Error fetching raw markdown document {md_id}: {e}")
         raise
