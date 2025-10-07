@@ -1,14 +1,11 @@
-"""Markdown Handler for the Markdown Server."""
+"""Markdown Renderer using markdown-it-py with useful plugins."""
 
-# Bruh there's so many markdown imports
+# Markdown imports
 from markdown_it import MarkdownIt
 from mdit_py_plugins.tasklists import tasklists_plugin
 from mdit_py_plugins.anchors import anchors_plugin
 from mdit_py_plugins.front_matter import front_matter_plugin
 from mdit_py_plugins.admon import admon_plugin
-from pygments import highlight
-from pygments.lexers import get_lexer_by_name, TextLexer
-from pygments.formatters import HtmlFormatter
 
 # Actually needed imports
 from fastapi import Request
@@ -17,21 +14,18 @@ from md_server.constants import APP_NAME
 from md_server.templates import templates
 from .logging_config import get_logger
 
-# Pygments highlight function
+# Prism.js-compatible code block formatting
 def highlight_code(code: str, lang: str | None) -> str:
-    try:
-        lexer = get_lexer_by_name(lang) if lang else TextLexer()
-    except Exception:
-        lexer = TextLexer()
-    formatter = HtmlFormatter(nowrap=True)
-    return highlight(code, lexer, formatter)
+    """Format code blocks for Prism.js client-side highlighting."""
+    # Return raw code - Prism.js will handle the highlighting on the client side
+    # This is much faster than server-side highlighting
+    lang_class = f"language-{lang}" if lang else "language-text"
+    return f'<pre><code class="{lang_class}">{code}</code></pre>'
 
 logger = get_logger(__name__)
 md = MarkdownIt("gfm-like", {"html": True, "linkify": False, "typographer": True})
-# Attach a highlight function (markdown-it-py will call this for fenced code)
-md.options["highlight"] = lambda code, lang, _: (
-    f'<pre class="code"><code>{highlight_code(code, lang)}</code></pre>'
-)
+# Attach a highlight function for Prism.js compatibility
+md.options["highlight"] = lambda code, lang, _: highlight_code(code, lang)
 
 # Add useful plugins
 md.use(tasklists_plugin)      # task lists: - [ ] / - [x]

@@ -13,26 +13,37 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="stylesheet" href="/static/github-markdown.css" />
+    <!-- Prism.js Theme -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 
-    {# child templates can inject extra head tags (scripts, meta, etc) #}
-    {% block head %}{% endblock %}
+    {# child templates can inject extra head tags (scripts, meta, etc) #} {%
+    block head %}{% endblock %}
   </head>
 
   <body>
     <main>
       <header class="title">
-        <h1><a href="/">{{ app_name + ' - ' + page_title if page_title else app_name }}</a></h1>
+        <h1>
+          <a href="/"
+            >{{ app_name + ' - ' + page_title if page_title else app_name }}</a
+          >
+        </h1>
       </header>
       <div class="spacer"></div>
 
-      {# page-specific content will be injected here by child templates #}
-      {% block content %}
+      {# page-specific content will be injected here by child templates #} {%
+      block content %}
       <!-- Default content (can be overridden) -->
       <section class="hero">
         <h1>{{ app_name }}</h1>
-        <p>A tiny markdown preview server.</p>
+        <p>A tiny markdown preview server for your services.</p>
       </section>
       {% endblock %}
     </main>
+    
+    <!-- Prism.js Core + Autoloader for dynamic language loading -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
   </body>
 </html>

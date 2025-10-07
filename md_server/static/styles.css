@@ -101,49 +101,36 @@ a:focus {
     text-decoration-thickness 0.4s ease;
 }
 
-/* Markdown components */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1.5rem;
-}
-th, td {
-  border: 1px solid var(--border-color);
-  padding: 0.5rem;
-  text-align: left;
-}
-th {
-  background-color: var(--foreground-color);
+/* Custom overrides for GitHub markdown styling */
+.markdown-body {
+  /* Override GitHub's max-width and centering for our design */
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background-color: transparent !important;
+  color: var(--text-color);
+  font-family: var(--font);
 }
 
-blockquote {
-  border-left: 4px solid var(--accent-color);
-  background-color: var(--foreground-color);
-  padding: 1rem;
-  padding-bottom: 0.20rem;
-  margin: 1.5rem 0;
-  border-radius: 8px;
-  color: var(--text-color-secondary);
+/* Ensure code blocks use our preferred font */
+.markdown-body pre,
+.markdown-body code {
+  font-family: var(--font) !important;
+  background-color: var(--foreground-color) !important;
 }
 
-code {
-  background-color: var(--foreground-color);
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.95rem;
-}
-
+/* Admonitions - keep our custom styling */
 .admonition {
+  border-radius: 8px;
   border-left: 4px solid var(--accent-color);
-  background-color: var(--foreground-color);
-  padding: 1rem;
+  /* From github styles \/ */
+  background-color: var(--bgColor-neutral-muted); 
+  padding: 0.5rem;
   margin: 1.5rem 0;
   border-radius: 8px;
 }
 .admonition-title {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-color);
 }
 .admonition.success {
