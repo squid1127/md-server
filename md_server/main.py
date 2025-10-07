@@ -88,3 +88,16 @@ async def read_raw_markdown(md_id: str):
     except Exception as e:
         logger.error(f"Error fetching raw markdown document {md_id}: {e}")
         raise
+    
+@app.get("/render")
+async def render_markdown_endpoint(request: Request):
+    """Render arbitrary markdown content provided via query parameter."""
+    logger.info(f"Arbitrary markdown rendering requested from {request.client.host}")
+
+    md = request.query_params.get("md", "")
+    title = request.query_params.get("title", "Document")
+    try:
+        return render_md_page(md, request=request, title=title)
+    except Exception as e:
+        logger.error(f"Error rendering arbitrary markdown: {e}")
+        raise
