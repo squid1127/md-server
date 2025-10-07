@@ -1,7 +1,10 @@
 /* Global Styles */
 :root {
   /* Color Palette */
-  --accent-color: #4caf50;
+  --accent-color: #89b4fa; /* Catppuccin Blue */
+  --success-color: #a6e3a1; /* Catppuccin Green */
+  --warning-color: #f9e2af; /* Catppuccin Yellow */
+  --error-color: #f38ba8; /* Catppuccin Red */
 
   /* Background */
   --background-color: black;
@@ -117,4 +120,17 @@ th {
   padding: 1rem;
   margin: 1.5rem 0;
   border-radius: 8px;
+}
+.admonition-title {
+  font-weight: 600;
+  color: var(--text-color);
+}
+.admonition.success {
+  border-left-color: var(--success-color);
+}
+.admonition.warning {
+  border-left-color: var(--warning-color);
+}
+.admonition.error {
+  border-left-color: var(--error-color);
 }
