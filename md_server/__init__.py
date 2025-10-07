@@ -1,6 +1,6 @@
 """
 md-server
-A simple markdown file server with FastAPI.
+A tiny markdown preview server for your services.
 """
 
 __version__ = "0.1.0"

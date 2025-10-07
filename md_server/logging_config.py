@@ -1,4 +1,4 @@
-"""Logging configuration for the markdown server."""
+"""Logging configuration."""
 
 import logging
 import logging.config

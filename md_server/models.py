@@ -5,6 +5,7 @@ from pydantic import Field
 from typing import Optional
 import datetime
 from .logging_config import get_logger
+from uuid import uuid4
 
 logger = get_logger(__name__)
 
@@ -26,7 +27,7 @@ class LoggedDocument(Document):
         return result
 
 class MarkdownDocument(LoggedDocument):
-    doc_id: str = Field(index=True, unique=True)
+    doc_id: str = Field(index=True, unique=True, default_factory=uuid4)
     title: str
     content: str
     created_at: datetime.datetime = Field(default_factory=lambda: datetime.datetime.now(datetime.timezone.utc))

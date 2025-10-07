@@ -48,11 +48,6 @@ async def get_db():
     return client.get_default_database()
 
 #* Document Operations
-def generate_doc_id() -> str:
-    """Generate a unique document ID."""
-    import uuid
-    return str(uuid.uuid4())
-
 async def get_markdown_document(md_id: str) -> MarkdownDocument | None:
     """Retrieve a markdown document by its ID."""
     logger.info(f"Fetching markdown document with ID: {md_id}")
@@ -66,7 +61,7 @@ async def get_markdown_document(md_id: str) -> MarkdownDocument | None:
 async def create_markdown_document(title: str, content: str) -> MarkdownDocument:
     """Create a new markdown document."""
     logger.info(f"Creating new markdown document: {title}")
-    document = MarkdownDocument(title=title, content=content, doc_id=generate_doc_id())
+    document = MarkdownDocument(title=title, content=content)
     await document.save()
     logger.info(f"Document created with ID: {document.doc_id}")
     return document

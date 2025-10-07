@@ -1,16 +1,16 @@
-"""Main application module for the markdown server."""
+"""Main application module and user-facing endpoints."""
 
 import os
 from fastapi import FastAPI, Request, Response
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
 
-from .static import static_files, NoCacheMiddleware
+from .static import static_files
 from .templates import templates
 from .constants import APP_NAME, HOME_PAGE
 from .md import render_md_page
 from .logging_config import setup_logging, get_logger
-from .middleware import RequestLoggingMiddleware
+from .middleware import RequestLoggingMiddleware, NoCacheMiddleware
 from .api import router as api_router
 
 
@@ -19,8 +19,10 @@ setup_logging()  # Configure logging
 
 logger = get_logger(__name__)
 
+# Lifespan event to initialize database connection
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    """Lifespan context manager to handle startup and shutdown events."""
     logger.info("Application startup: initializing database")
     try:
         from .db import init_db
@@ -35,6 +37,7 @@ async def lifespan(app: FastAPI):
     logger.info("Application shutdown: cleaning up resources")
     # Any shutdown code can go here if needed
 
+# Initialize FastAPI application
 app = FastAPI(title=APP_NAME, version="0.1.0", lifespan=lifespan)
 
 app.mount("/static", static_files)
@@ -47,6 +50,7 @@ if os.getenv("NO_CACHE", "false").lower() == "true":
 
 logger.info(f"Starting {APP_NAME} v0.1.0")
 
+# User-facing endpoints
 @app.get("/")
 async def read_root(request: Request):
     """Render the index page using the HOME_PAGE markdown content.

@@ -1,4 +1,4 @@
-"""Constants for the Markdown Server."""
+"""Constant variables"""
 
 APP_NAME = "md-server"
 APP_DESCRIPTION = "A tiny markdown preview server for your services."

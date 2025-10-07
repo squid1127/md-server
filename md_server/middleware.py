@@ -1,4 +1,4 @@
-"""Middleware for logging HTTP requests and responses."""
+"""Middleware for logging HTTP requests and disabling caching."""
 
 import time
 from typing import Callable
@@ -45,3 +45,12 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
                 f"({process_time:.3f}s)"
             )
             raise
+        
+class NoCacheMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        response = await call_next(request)
+        if request.url.path.startswith("/static/"):
+            response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+            response.headers["Pragma"] = "no-cache"
+            response.headers["Expires"] = "0"
+        return response
