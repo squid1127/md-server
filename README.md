@@ -6,14 +6,32 @@ How much of this was AI generated? Too much.
 
 ## Features
 
-- Serve markdown files to users.
-- Upload and manage files using a RESTful API. (Authentication required)
-- Render markdown files to HTML for easy viewing in browsers.
-- Minimalistic frontend
+- Serves markdown previews styled with GitHub's markdown CSS.
+- Renders markdown to HTML using `markdown-it-py` with plugins for tables, task lists
+- Uploads and manages files using a RESTful API, designed for integration with other services. (Authentication required)
 - MongoDB backend for file storage, metadata, and api keys.
 - Configuration via environment variables or `.env` file.
 - CLI for api key management and server control.
 - Comprehensive logging with configurable levels and file rotation.
+
+### Notablably Missing Features
+
+- [ ] DB support for SQL databases
+- [ ] Complete markdown support (e.g., math, diagrams)
+- [ ] Currently, the markdown styling is a bit messy
+
+## Installation
+
+For docker installation, refer to [docker instructions](docs/docker.md).
+
+To install and run locally, ensure you have Python 3.13+ and Poetry installed. Then:
+
+```bash
+git clone https://github.com/squid1127/md-server.git # Clone the repository
+cd md-server # Change to the project directory
+poetry install # Install dependencies
+poetry run md-server # Run the server
+```
 
 ### Usage Example
 
@@ -26,8 +44,8 @@ python cli.py run
 echo "LOG_LEVEL=DEBUG" >> .env
 ```
 
-Refer to [environment variables](docs/env.md)
+Refer to [environment variables](docs/env.md) for configuration options.
 
-#### API Usage
+### API Usage
 
 Refer to [API documentation](docs/api.md)
