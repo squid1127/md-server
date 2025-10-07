@@ -13,6 +13,7 @@
 
   /* Text */
   --text-color: #ddd;
+  --text-color-subheading: #ccc;
   --text-color-secondary: #aaa;
 
   /* Font */
@@ -82,7 +83,7 @@ h2 {
 }
 h3, h4, h5, h6 {
   font-weight: 500;
-  color: var(--text-color-secondary);
+  color: var(--text-color-subheading);
   margin-bottom: 0.5rem;
 }
 
@@ -100,6 +101,8 @@ a:focus {
     text-decoration-thickness 0.4s ease;
 }
 
+/* Markdown components */
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -112,6 +115,24 @@ th, td {
 }
 th {
   background-color: var(--foreground-color);
+}
+
+blockquote {
+  border-left: 4px solid var(--accent-color);
+  background-color: var(--foreground-color);
+  padding: 1rem;
+  padding-bottom: 0.20rem;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  color: var(--text-color-secondary);
+}
+
+code {
+  background-color: var(--foreground-color);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.95rem;
 }
 
 .admonition {

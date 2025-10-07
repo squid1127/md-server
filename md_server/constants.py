@@ -12,13 +12,20 @@ HOME_PAGE = f"""# {APP_NAME}
 
 ([Source]({APP_SOURCE}))
 
-## Markdown Format Test
+## Markdown Feature Support
+{APP_NAME} uses markdown-it-py for rendering markdown (+plugins), which the following:
 
-# Heading 1
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
+### Basic Markdown
+**Bold** / *Italic* / ~~Strikethrough~~ / `Inline code`
+#### Headers (H1, H2, H3, H4, H5, H6)
 
-This is a paragraph with **bold text**, *italic text*, and ***bold italic text***.
+### Blockquotes
+> This is a blockquote.
+
+### Admonition
+Note that admonitions use `!!!` rather than `> [type]` syntax. (Yes it's not GFM whatever)
+!!! success This is a note admonition.
+    This is the content of the admonition.
+!!! warning This is a warning admonition.
+    This is the content of the warning admonition.
 """

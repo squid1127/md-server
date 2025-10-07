@@ -12,6 +12,7 @@ from pygments.formatters import HtmlFormatter
 
 # Actually needed imports
 from fastapi import Request
+import os
 from md_server.constants import APP_NAME
 from md_server.templates import templates
 from .logging_config import get_logger
@@ -38,6 +39,11 @@ md.use(anchors_plugin)        # heading anchors/permalinks
 md.use(front_matter_plugin)   # front matter parsing (if you want it)
 md.use(admon_plugin)          # admonitions: !!! note/warning etc.
 
+def get_name() -> str:
+    """
+    Get the app name from environment or use default.
+    """
+    return os.getenv("APP_NAME", APP_NAME)
 
 def render_markdown(md_text: str) -> str:
     """Render markdown text to HTML using Markdown-it.
@@ -83,7 +89,7 @@ def render_md_page(md_text: str, title: str = None, request: Request = None) -> 
             {
                 "page_title": title,
                 "markdown_content": html_content,
-                "app_name": APP_NAME,
+                "app_name": get_name(),
                 "request": request,
             },
         )
