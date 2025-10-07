@@ -1,0 +1,16 @@
+# Docker Compose configuration for development environment
+services:
+  md-server:
+    image: squid1127/md-server:dev # Must create locally
+    container_name: md-server
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+  
+    # Dev: attach and use bash
+    # stdin_open: true
+    # tty: true
+    # command: bash

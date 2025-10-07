@@ -17,7 +17,8 @@ dependencies = [
     "typer",
     "python-dotenv",
     "motor",
-    "beanie"
+    "beanie",
+    "requests", # Used in the test script and docker health check
 ]
 
 
