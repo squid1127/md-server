@@ -61,26 +61,14 @@ def hello_world():
 
 ## Admonition
 
-!!! note "Note Title"
-This is a note admonition.
-
-!!! warning "Warning Title"
-This is a warning admonition.
-
-!!! tip "Tip Title"
-This is a tip admonition.
-
-!!! info "Info Title"
-This is an info admonition.
-
-!!! danger "Danger Title"
-This is a danger admonition.
-
-!!! success "Success Title"
-This is a success admonition.
-
 > [!NOTE]
 > This is a blockquote-style note admonition.
+
+> [!WARNING]
+> This is a blockquote-style warning admonition.
+
+> [!TIP]
+> This is a blockquote-style tip admonition.
 
 ## Horizontal Rule
 
