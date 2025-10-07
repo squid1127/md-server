@@ -63,10 +63,7 @@ p {
   font-weight: 500;
   color: var(--text-color);
 
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--text-color) 40%, transparent);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
+
 }
 
 h1 {
