@@ -1,6 +1,11 @@
 """Entry point for the markdown server CLI."""
 
 import sys
+from dotenv import load_dotenv
+
+# Load environment variables first, before any other imports
+load_dotenv()
+
 from md_server.cli.main import cli
 from md_server.logging_config import setup_logging, get_logger
 

@@ -8,10 +8,12 @@ from .logging_config import get_logger
 
 logger = get_logger(__name__)
 
-connection_string = os.getenv("MONGO_URL", "mongodb://localhost:27017")
-
-
 def get_connection_string() -> str:
+    """Get the MongoDB connection string from environment or use default."""
+    connection_string = os.getenv("MONGO_URL", None)
+    if not connection_string:
+        connection_string = "mongodb://localhost:27017"
+        logger.warning("MONGO_URL not set, defaulting to mongodb://localhost:27017")
     return connection_string
 
 
