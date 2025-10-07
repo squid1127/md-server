@@ -1,5 +1,6 @@
 """Main application module for the markdown server."""
 
+import os
 from fastapi import FastAPI, Request, Response
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
@@ -39,7 +40,9 @@ app = FastAPI(title=APP_NAME, version="0.1.0", lifespan=lifespan)
 app.mount("/static", static_files)
 app.include_router(api_router, prefix="/api")
 app.add_middleware(RequestLoggingMiddleware)
-app.add_middleware(NoCacheMiddleware)
+# Optionally add NoCacheMiddleware based on environment variable
+if os.getenv("NO_CACHE", "false").lower() == "true":
+    app.add_middleware(NoCacheMiddleware)
 # app.mount("/templates", templates)
 
 logger.info(f"Starting {APP_NAME} v0.1.0")
@@ -101,3 +104,8 @@ async def render_markdown_endpoint(request: Request):
     except Exception as e:
         logger.error(f"Error rendering arbitrary markdown: {e}")
         raise
+    
+@app.get("/health")
+async def health_check():
+    """Health check endpoint."""
+    return {"status": "ok"}
