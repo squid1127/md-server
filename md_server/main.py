@@ -51,7 +51,7 @@ if os.getenv("NO_CACHE", "false").lower() == "true":
 logger.info(f"Starting {APP_NAME} v0.1.0")
 
 # User-facing endpoints
-@app.get("/")
+@app.get("/", tags=["UI"])
 async def read_root(request: Request):
     """Render the index page using the HOME_PAGE markdown content.
     """
@@ -62,7 +62,7 @@ async def read_root(request: Request):
         logger.error(f"Error rendering home page: {e}")
         raise
 
-@app.get("/d/{md_id}")
+@app.get("/d/{md_id}", tags=["UI"])
 async def read_markdown(md_id: str, request: Request):
     """Read and render a markdown document by its ID."""
     logger.info(f"Markdown document requested: {md_id} from {request.client.host}")
@@ -78,8 +78,8 @@ async def read_markdown(md_id: str, request: Request):
     except Exception as e:
         logger.error(f"Error rendering markdown document {md_id}: {e}")
         raise
-    
-@app.get("/raw/{md_id}")
+
+@app.get("/raw/{md_id}", tags=["UI"])
 async def read_raw_markdown(md_id: str):
     """Fetch the raw markdown content of a document by its ID."""
     logger.info(f"Raw markdown requested: {md_id}")
@@ -95,8 +95,8 @@ async def read_raw_markdown(md_id: str):
     except Exception as e:
         logger.error(f"Error fetching raw markdown document {md_id}: {e}")
         raise
-    
-@app.get("/render")
+
+@app.get("/render", tags=["UI"])
 async def render_markdown_endpoint(request: Request):
     """Render arbitrary markdown content provided via query parameter."""
     logger.info(f"Arbitrary markdown rendering requested from {request.client.host}")
@@ -109,7 +109,7 @@ async def render_markdown_endpoint(request: Request):
         logger.error(f"Error rendering arbitrary markdown: {e}")
         raise
     
-@app.get("/health")
+@app.get("/health", tags=["UI"])
 async def health_check():
     """Health check endpoint."""
     return {"status": "ok"}
