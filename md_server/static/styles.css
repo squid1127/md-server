@@ -73,19 +73,19 @@ li {
   color: var(--text-color);
 }
 
-
 a {
   color: inherit;
   text-decoration-thickness: 2px;
   text-decoration-color: color-mix(in srgb, currentColor 20%, transparent);
+  transition: all 0.3s ease;
 }
 a:hover,
 a:focus {
   text-decoration: underline;
   text-decoration-color: var(--button-bg-color);
   text-decoration-thickness: 3px;
-  transition: text-decoration-color 0.4s ease,
-    text-decoration-thickness 0.4s ease;
+  padding: 4px;
+  font-weight: 900;
 }
 
 /* Custom overrides for GitHub markdown styling */
@@ -95,7 +95,6 @@ a:focus {
   margin: 0;
   padding: 0;
   background-color: transparent !important;
-  color: var(--text-color);
   font-family: var(--font) !important;
 }
 
@@ -106,28 +105,123 @@ a:focus {
   background-color: var(--foreground-color) !important;
 }
 
-/* Admonitions - keep our custom styling */
+/* Enhanced Admonitions with Custom HTML Structure */
 .admonition {
-  border-radius: 8px;
-  border-left: 4px solid var(--accent-color);
-  /* From github styles \/ */
-  background-color: var(--bgColor-neutral-muted);
-  padding: 0.5rem;
-  margin: 1.5rem 0;
-  border-radius: 8px;
+  position: relative;
+  background: var(--foreground-color);
+  padding: 0.25rem;
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+  --admonition-color: var(--accent-color); /* Default color */
+  transition: background 1s ease;
 }
+.admonition:focus-within {
+  background: var(--admonition-color);
+}
+.admonition-container {
+  border-radius: 6px;
+  /* margin: 1.5rem 0; */
+  margin-left: 0;
+  overflow: hidden;
+  transition: margin-left 1s ease, background 0.3s ease;
+}
+.admonition:focus-within .admonition-container {
+  margin-left: -0.75rem;
+}
+
+/* Colored indicator bar on the left */
+.admonition-indicator {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  bottom: 6px;
+  width: 6px;
+  border-radius: 6px;
+  background: var(--admonition-color);
+  transition: all 1s ease;
+}
+/* .admonition:hover .admonition-indicator {
+  width: 10px;
+} */
+.admonition:focus-within .admonition-indicator {
+  width: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: transparent;
+}
+
+/* Header section with icon and title */
+.admonition-header {
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 1rem;
+}
+/* Title styling */
 .admonition-title {
   font-weight: 700;
-  color: var(--text-color);
+  color: var(--admonition-color);
+  margin: 0;
+  font-size: 1rem;
+  text-transform: capitalize;
+  transition: color 0.3s ease;
 }
-.admonition.success {
-  border-left-color: var(--success-color);
+.admonition:focus-within .admonition-title {
+  color: var(--foreground-color);
 }
-.admonition.warning {
-  border-left-color: var(--warning-color);
+
+/* Content area */
+.admonition-content {
+  padding-left: 1rem;
 }
-.admonition.error {
-  border-left-color: var(--error-color);
+.admonition-content p {
+  color: var(--text-color-secondary) !important;
+  transition: color 0.3s ease;
+}
+.admonition:focus-within .admonition-content p {
+  color: var(--foreground-color) !important;
+}
+
+.admonition-content > *:first-child {
+  margin-top: 0;
+}
+
+.admonition-content > *:last-child {
+  margin-bottom: 0;
+}
+
+.icon {
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
+  font-size: 1.25rem;
+  vertical-align: middle;
+  margin-right: 0.25rem;
+}
+.admonition-icon .icon {
+  color: var(--admonition-color);
+  transition: color 0.3s ease;
+}
+.admonition:focus-within .admonition-icon .icon {
+  color: var(--foreground-color);
+}
+/* Dont question it */
+.admonition-icon a {
+  text-decoration: none !important;
+}
+.admonition-icon a:focus {
+  padding: 0 !important;
+  font-weight: 400 !important;
+}
+
+/* Colors */
+.admonition-success {
+  --admonition-color: var(--success-color);
+}
+.admonition-warning {
+  --admonition-color: var(--warning-color);
+}
+.admonition-error {
+  --admonition-color: var(--error-color);
 }
 
 /* Error Page Specific Styles */

@@ -14,6 +14,7 @@ from md_server.constants import APP_NAME
 from md_server.templates import templates
 from .logging_config import get_logger
 
+
 # Prism.js-compatible code block formatting
 def highlight_code(code: str, lang: str | None) -> str:
     """Format code blocks for Prism.js client-side highlighting."""
@@ -22,22 +23,95 @@ def highlight_code(code: str, lang: str | None) -> str:
     lang_class = f"language-{lang}" if lang else "language-text"
     return f'<pre><code class="{lang_class}">{code}</code></pre>'
 
+
 logger = get_logger(__name__)
 md = MarkdownIt("gfm-like", {"html": True, "linkify": False, "typographer": True})
 # Attach a highlight function for Prism.js compatibility
 md.options["highlight"] = lambda code, lang, _: highlight_code(code, lang)
 
 # Add useful plugins
-md.use(tasklists_plugin)      # task lists: - [ ] / - [x]
-md.use(anchors_plugin)        # heading anchors/permalinks
-md.use(front_matter_plugin)   # front matter parsing (if you want it)
-md.use(admon_plugin)          # admonitions: !!! note/warning etc.
+md.use(tasklists_plugin)  # task lists: - [ ] / - [x]
+md.use(anchors_plugin)  # heading anchors/permalinks
+md.use(front_matter_plugin)  # front matter parsing (if you want it)
+md.use(admon_plugin)  # admonitions: !!! note/warning etc.
+
+
+def enhance_admonitions(html: str) -> str:
+    """Post-process HTML to enhance admonition structure with custom elements."""
+    import re
+
+    # Icon mapping for different admonition types
+    icons = {
+        "note": "edit_square",
+        "info": "ℹnfo",
+        "tip": "emoji_objects",
+        "hint": "emoji_objects",
+        "important": "exclamation",
+        "attention": "exclamation",
+        "warning": "warning",
+        "caution": "warning",
+        "danger": "error",
+        "error": "error",
+        "success": "check_circle",
+        "check": "check_circle",
+        "question": "question_mark",
+        "quote": "format_quote",
+        "example": "note_alt",
+        "abstract": "note_alt",
+        "summary": "notes",
+    }
+
+    def replace_admonition(match):
+        full_match = match.group(0)
+        classes = match.group(1)
+        title_content = match.group(2)
+        body_content = match.group(3)
+
+        # Extract admonition type from classes
+        admon_type = "note"  # default
+        for cls in classes.split():
+            if cls != "admonition" and cls in icons:
+                admon_type = cls
+                break
+
+        icon = icons.get(admon_type, "ℹ️")
+
+        # Build enhanced structure
+        # + Really stupid icon
+        enhanced = f"""
+<div class="admonition admonition-{admon_type}">
+    <div class="admonition-indicator"></div>
+    <div class="admonition-container">
+        <div class="admonition-header">
+            <div class="admonition-icon">
+                <a href="#admonition-focus">
+                    <span class="icon">{icon}</span>
+                </a>
+            </div>
+            <div class="admonition-title">{title_content}</div>
+        </div>
+        <div class="admonition-content">{body_content}</div>
+    </div>
+</div>"""
+
+        return enhanced
+
+    # Pattern to match standard admonition HTML structure
+    # Matches: <div class="admonition TYPE"><p class="admonition-title">TITLE</p>CONTENT</div>
+    pattern = r'<div class="([^"]*admonition[^"]*)">\s*<p class="admonition-title">([^<]*)</p>\s*(.*?)\s*</div>'
+
+    # Replace all admonitions with enhanced structure
+    enhanced_html = re.sub(pattern, replace_admonition, html, flags=re.DOTALL)
+
+    return enhanced_html
+
 
 def get_name() -> str:
     """
     Get the app name from environment or use default.
     """
     return os.getenv("APP_NAME", APP_NAME)
+
 
 def render_markdown(md_text: str) -> str:
     """Render markdown text to HTML using Markdown-it.
@@ -49,14 +123,16 @@ def render_markdown(md_text: str) -> str:
         str: The rendered HTML.
     """
     logger.debug(f"Rendering markdown content of length: {len(md_text)}")
-    
+
     if not md_text.strip():
         logger.warning("Empty markdown content provided")
         return f"<p> This document has no content. </p>"
-    
+
     try:
         html = md.render(md_text)
-        logger.debug("Markdown rendering completed successfully")
+        # Enhance admonitions with custom HTML structure
+        html = enhance_admonitions(html)
+        logger.debug("Markdown rendering and enhancement completed successfully")
         return html
     except Exception as e:
         logger.error(f"Error rendering markdown: {e}")
@@ -75,7 +151,7 @@ def render_md_page(md_text: str, title: str = None, request: Request = None) -> 
         str: The complete HTML page with rendered markdown.
     """
     logger.info(f"Rendering page: {title or 'Untitled'}")
-    
+
     try:
         html_content = render_markdown(md_text)
         response = templates.TemplateResponse(
