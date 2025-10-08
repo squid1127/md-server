@@ -6,6 +6,7 @@ from mdit_py_plugins.tasklists import tasklists_plugin
 from mdit_py_plugins.anchors import anchors_plugin
 from mdit_py_plugins.front_matter import front_matter_plugin
 from mdit_py_plugins.admon import admon_plugin
+from bleach import clean
 
 # Actually needed imports
 from fastapi import Request
@@ -52,9 +53,11 @@ def enhance_admonitions(html: str) -> str:
         "caution": "warning",
         "danger": "error",
         "error": "error",
+        "failure": "error",
         "success": "check_circle",
         "check": "check_circle",
         "question": "question_mark",
+        "bug": "bug_report",
         "quote": "format_quote",
         "example": "note_alt",
         "abstract": "note_alt",
@@ -84,9 +87,7 @@ def enhance_admonitions(html: str) -> str:
     <div class="admonition-container">
         <div class="admonition-header">
             <div class="admonition-icon">
-                <a href="#admonition-focus">
-                    <span class="icon">{icon}</span>
-                </a>
+                <span class="icon">{icon}</span>
             </div>
             <div class="admonition-title">{title_content}</div>
         </div>
@@ -106,6 +107,50 @@ def enhance_admonitions(html: str) -> str:
     return enhanced_html
 
 
+def clean_html(html: str) -> str:
+    """Sanitize HTML to prevent XSS attacks."""
+    allowed_tags = [
+        "a",
+        "abbr",
+        "acronym",
+        "b",
+        "blockquote",
+        "code",
+        "em",
+        "i",
+        "li",
+        "ol",
+        "strong",
+        "ul",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "p",
+        "pre",
+        "br",
+        "hr",
+        "img",
+        "div",
+        "span",
+        "table",
+        "thead",
+        "tbody",
+        "tr",
+        "th",
+        "td",
+    ]
+    allowed_attributes = {
+        "*": ["class", "id"],
+        "a": ["href", "title"],
+        "img": ["src", "alt", "title"],
+    }
+    cleaned_html = clean(html, tags=allowed_tags, attributes=allowed_attributes)
+    return cleaned_html
+
+
 def get_name() -> str:
     """
     Get the app name from environment or use default.
@@ -122,6 +167,8 @@ def render_markdown(md_text: str) -> str:
     Returns:
         str: The rendered HTML.
     """
+    html_jobs = [enhance_admonitions, clean_html]
+
     logger.debug(f"Rendering markdown content of length: {len(md_text)}")
 
     if not md_text.strip():
@@ -130,8 +177,10 @@ def render_markdown(md_text: str) -> str:
 
     try:
         html = md.render(md_text)
-        # Enhance admonitions with custom HTML structure
-        html = enhance_admonitions(html)
+
+        # Apply HTML enhancement jobs
+        for job in html_jobs:
+            html = job(html)
         logger.debug("Markdown rendering and enhancement completed successfully")
         return html
     except Exception as e:
