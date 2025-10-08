@@ -27,7 +27,7 @@ class LoggedDocument(Document):
         return result
 
 class MarkdownDocument(LoggedDocument):
-    doc_id: str = Field(index=True, unique=True, default_factory=uuid4)
+    doc_id: str = Field(index=True, unique=True, default_factory=lambda: str(uuid4()))
     title: str
     content: str
     created_at: datetime.datetime = Field(default_factory=lambda: datetime.datetime.now(datetime.timezone.utc))
