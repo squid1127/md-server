@@ -112,24 +112,24 @@ a:focus {
   /* background: var(--foreground-color); */
   padding: 0.25rem;
   margin-bottom: 1.5rem;
-  border-radius: 10px;
+  border-radius: 0 12px 12px 0;
   --admonition-color: var(--accent-color); /* Default color */
 }
 .admonition-container {
-  border-radius: 6px;
-  /* margin: 1.5rem 0; */
-  margin-left: 0;
-  overflow: hidden;
+  /* display: flex;
+  flex-direction: column;
+  gap: 0.5rem; */
+  padding-left: 0.5rem; /* Space for the indicator bar */
 }
 
 /* Colored indicator bar on the left */
 .admonition-indicator {
   position: absolute;
-  left: 6px;
+  left: 0;
   top: 6px;
   bottom: 6px;
-  width: 6px;
-  border-radius: 6px;
+  width: 5px;
+  border-radius: 12px;
   background: var(--admonition-color);
 }
 
@@ -137,7 +137,6 @@ a:focus {
 .admonition-header {
   display: flex;
   align-items: center;
-  padding: 0 0 0 1rem;
 }
 /* Title styling */
 .admonition-title {
@@ -149,9 +148,6 @@ a:focus {
 }
 
 /* Content area */
-.admonition-content {
-  padding-left: 1rem;
-}
 .admonition-content p {
   color: var(--text-color-secondary) !important;
 }
