@@ -2,9 +2,11 @@
 :root {
   /* Color Palette */
   --accent-color: #89b4fa; /* Catppuccin Blue */
-  --success-color: #a6e3a1; /* Catppuccin Green */
-  --warning-color: #f9e2af; /* Catppuccin Yellow */
-  --error-color: #f38ba8; /* Catppuccin Red */
+  --green: #a6e3a1; /* Catppuccin Green */
+  --yellow: #f9e2af; /* Catppuccin Yellow */
+  --red: #f38ba8; /* Catppuccin Red */
+  --purple: #cba6f7; /* Catppuccin Purple */
+  --orange: #fab387; /* Catppuccin Orange */
 
   /* Background */
   --background-color: black;
@@ -13,8 +15,7 @@
 
   /* Text */
   --text-color: #ddd;
-  --text-color-subheading: #ccc;
-  --text-color-secondary: #aaa;
+  --text-color-secondary: #ccc;
 
   /* Font */
   --font: "Montserrat", Arial, sans-serif;
@@ -26,7 +27,7 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   margin: 0;
-  padding: 1.5rem 2rem 0;
+  padding: 1.5rem 0.5rem 0;
 }
 
 main {
@@ -108,25 +109,17 @@ a:focus {
 /* Enhanced Admonitions with Custom HTML Structure */
 .admonition {
   position: relative;
-  background: var(--foreground-color);
+  /* background: var(--foreground-color); */
   padding: 0.25rem;
   margin-bottom: 1.5rem;
   border-radius: 10px;
   --admonition-color: var(--accent-color); /* Default color */
-  transition: background 1s ease;
-}
-.admonition:focus-within {
-  background: var(--admonition-color);
 }
 .admonition-container {
   border-radius: 6px;
   /* margin: 1.5rem 0; */
   margin-left: 0;
   overflow: hidden;
-  transition: margin-left 1s ease, background 0.3s ease;
-}
-.admonition:focus-within .admonition-container {
-  margin-left: -0.75rem;
 }
 
 /* Colored indicator bar on the left */
@@ -138,17 +131,6 @@ a:focus {
   width: 6px;
   border-radius: 6px;
   background: var(--admonition-color);
-  transition: all 1s ease;
-}
-/* .admonition:hover .admonition-indicator {
-  width: 10px;
-} */
-.admonition:focus-within .admonition-indicator {
-  width: 100%;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  background: transparent;
 }
 
 /* Header section with icon and title */
@@ -176,12 +158,7 @@ a:focus {
 }
 .admonition-content p {
   color: var(--text-color-secondary) !important;
-  transition: color 0.3s ease;
 }
-.admonition:focus-within .admonition-content p {
-  color: var(--foreground-color) !important;
-}
-
 .admonition-content > *:first-child {
   margin-top: 0;
 }
@@ -199,29 +176,23 @@ a:focus {
 }
 .admonition-icon .icon {
   color: var(--admonition-color);
-  transition: color 0.3s ease;
-}
-.admonition:focus-within .admonition-icon .icon {
-  color: var(--foreground-color);
-}
-/* Dont question it */
-.admonition-icon a {
-  text-decoration: none !important;
-}
-.admonition-icon a:focus {
-  padding: 0 !important;
-  font-weight: 400 !important;
 }
 
 /* Colors */
 .admonition-success {
-  --admonition-color: var(--success-color);
+  --admonition-color: var(--green);
 }
-.admonition-warning {
-  --admonition-color: var(--warning-color);
+.admonition-warning, .admonition-caution, .admonition-note, .admonition-tip {
+  --admonition-color: var(--yellow);
 }
-.admonition-error {
-  --admonition-color: var(--error-color);
+.admonition-bug {
+  --admonition-color: var(--orange);
+}
+.admonition-error, .admonition-danger, .admonition-critical, .admonition-failure {
+  --admonition-color: var(--red);
+}
+.admonition-question, .admonition-quote {
+  --admonition-color: var(--purple);
 }
 
 /* Error Page Specific Styles */
