@@ -146,10 +146,6 @@ a:focus {
   margin: 0;
   font-size: 1rem;
   text-transform: capitalize;
-  transition: color 0.3s ease;
-}
-.admonition:focus-within .admonition-title {
-  color: var(--foreground-color);
 }
 
 /* Content area */
