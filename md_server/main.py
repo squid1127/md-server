@@ -2,6 +2,7 @@
 
 import os
 from fastapi import FastAPI, Request, Response
+from fastapi.responses import HTMLResponse, PlainTextResponse
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
 
@@ -51,7 +52,7 @@ if os.getenv("NO_CACHE", "false").lower() == "true":
 logger.info(f"Starting {APP_NAME} v0.1.0")
 
 # User-facing endpoints
-@app.get("/", tags=["UI"])
+@app.get("/", tags=["UI"], name="Home", response_class=HTMLResponse)
 async def read_root(request: Request):
     """Render the index page using the HOME_PAGE markdown content.
     """
@@ -62,7 +63,7 @@ async def read_root(request: Request):
         logger.error(f"Error rendering home page: {e}")
         raise
 
-@app.get("/d/{md_id}", tags=["UI"])
+@app.get("/d/{md_id}", tags=["UI"], name="Render Markdown Document", response_class=HTMLResponse)
 async def read_markdown(md_id: str, request: Request):
     """Read and render a markdown document by its ID."""
     logger.info(f"Markdown document requested: {md_id} from {request.client.host}")
@@ -79,7 +80,7 @@ async def read_markdown(md_id: str, request: Request):
         logger.error(f"Error rendering markdown document {md_id}: {e}")
         raise
 
-@app.get("/raw/{md_id}", tags=["UI"])
+@app.get("/raw/{md_id}", tags=["UI"], name="Raw Markdown Document", response_class=PlainTextResponse)
 async def read_raw_markdown(md_id: str):
     """Fetch the raw markdown content of a document by its ID."""
     logger.info(f"Raw markdown requested: {md_id}")
@@ -96,7 +97,7 @@ async def read_raw_markdown(md_id: str):
         logger.error(f"Error fetching raw markdown document {md_id}: {e}")
         raise
 
-@app.get("/render", tags=["UI"])
+@app.get("/render", tags=["UI"], name="Render Arbitrary Markdown", response_class=HTMLResponse)
 async def render_markdown_endpoint(request: Request):
     """Render arbitrary markdown content provided via query parameter."""
     logger.info(f"Arbitrary markdown rendering requested from {request.client.host}")
