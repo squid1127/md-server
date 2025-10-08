@@ -26,9 +26,13 @@ HOME_PAGE = f"""# {APP_NAME}
 Note that admonitions use `!!!` rather than `> [type]` syntax. (Yes it's not GFM whatever)
 !!! success Success Admonition
     This is the content of the admonition.
+    
 !!! warning Warning Admonition
     This is the content of the warning admonition.
     This is a [Link](https://github.com/squid1127/md-server)
+    
+!!! quote Important Quote
+    All one must do is lock in.
     
 ### Lists
 - Unordered list item 1
@@ -51,4 +55,24 @@ Note that admonitions use `!!!` rather than `> [type]` syntax. (Yes it's not GFM
 | Row 1   | Data 1   | [Data 2](https://github.com/squid1127/md-server)   | [1](https://github.com/squid1127/md-server) | [4](https://github.com/squid1127/md-server) |
 | Row 2   | Data 3   | Data 4   | 2 | 5 |
 | Row 3   | Data 5   | Data 6   | 3 | 6 |
+
+### Code Blocks
+```python
+from uuid import uuid4
+
+class UUIDGenerator:
+    @staticmethod
+    def generate_uuid(string: bool = False) -> str:
+        \"\"\"Generate a random UUID4 string.\"\"\"
+        if string:
+            return str(uuid4())
+        return uuid4()
+        
+def main():
+    print(UUIDGenerator.generate_uuid(string=True))
+    
+if __name__ == "__main__":
+    main()
+```
+
 """
