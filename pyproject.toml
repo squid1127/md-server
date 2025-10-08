@@ -13,6 +13,7 @@ dependencies = [
     "uvicorn[standard]",
     "markdown-it-py",
     "mdit-py-plugins",
+    "bleach",
     "aiofiles",
     "typer",
     "python-dotenv",
