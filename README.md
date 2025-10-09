@@ -37,6 +37,7 @@ This project is currently maintained by [squid1127](https://github.com/squid1127
 ## Installation
 
 > *"If I were you I wouldn't use this project - it's probably a hot mess"* - squid1127
+
 Refer to [environment variables](docs/env.md) for configuration options.
 
 ### Docker Setup
