@@ -2,6 +2,10 @@
 
 A tiny markdown preview server for your services.
 
+## Maintenance
+
+This project is currently maintained by [squid1127](https://github.com/squid1127), although not very well (I suck at frontend lol ~ squid). Feel free to open issues or PRs.
+
 ## Features
 
 - Serves markdown previews styled with heavily modified GitHub-flavored markdown.
@@ -27,7 +31,12 @@ A tiny markdown preview server for your services.
 
 ![Screenshot of md-server rendering a markdown file](docs/example-doc-v2.png)
 
+> [!NOTE]
+> The frontend is still a work in progress and may change in the future. Probably doesn't help that it was made from scratch...
+
 ## Installation
+
+Refer to [environment variables](docs/env.md) for configuration options.
 
 ### Docker Setup
 
@@ -69,8 +78,6 @@ poetry run md-server run
 # Or set in .env file
 echo "LOG_LEVEL=DEBUG" >> .env
 ```
-
-Refer to [environment variables](docs/env.md) for configuration options.
 
 ### API Usage
 
