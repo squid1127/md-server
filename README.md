@@ -36,11 +36,12 @@ This project is currently maintained by [squid1127](https://github.com/squid1127
 
 ## Installation
 
+> *"If I were you I wouldn't use this project - it's probably a hot mess"* - squid1127
 Refer to [environment variables](docs/env.md) for configuration options.
 
 ### Docker Setup
 
-Create a container using `ghcr.io/squid1127/md-server:main` image. No volumes are required, but environment variables are necessary to connect to MongoDB.
+After ignoring squid1127's warning, create a container using `ghcr.io/squid1127/md-server:main` image. No volumes are required, but environment variables are necessary to connect to MongoDB.
 
 CLI Access:
 
