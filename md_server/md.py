@@ -188,13 +188,14 @@ def render_markdown(md_text: str) -> str:
         return f"<p>Error rendering markdown content.</p>"
 
 
-def render_md_page(md_text: str, title: str = None, request: Request = None) -> str:
+def render_md_page(md_text: str, title: str = None, request: Request = None, md_id: str = None, **kwargs) -> str:
     """Render a full HTML page with the given markdown content.
 
     Args:
         md_text (str): The markdown text to render.
         title (str): The title of the page.
         request (Request): The FastAPI request object.
+        md_id (str): The markdown document ID (for copy functionality).
 
     Returns:
         str: The complete HTML page with rendered markdown.
@@ -210,6 +211,8 @@ def render_md_page(md_text: str, title: str = None, request: Request = None) -> 
                 "markdown_content": html_content,
                 "app_name": get_name(),
                 "request": request,
+                "md_id": md_id,
+                **kwargs,
             },
         )
         logger.debug(f"Page rendered successfully: {title or 'Untitled'}")

@@ -8,7 +8,7 @@ from contextlib import asynccontextmanager
 
 from .static import static_files
 from .templates import templates
-from .constants import APP_NAME, HOME_PAGE
+from .constants import APP_NAME, HOME_PAGE, APP_SOURCE
 from .md import render_md_page
 from .logging_config import setup_logging, get_logger
 from .middleware import RequestLoggingMiddleware, NoCacheMiddleware
@@ -61,7 +61,12 @@ async def read_root(request: Request):
     """Render the index page using the HOME_PAGE markdown content."""
     logger.info(f"Home page requested from {request.client.host}")
     try:
-        return render_md_page(HOME_PAGE, request=request, title="Home")
+        return render_md_page(
+            HOME_PAGE,
+            request=request,
+            title="Home",
+            source=APP_SOURCE,
+        )
     except Exception as e:
         logger.error(f"Error rendering home page: {e}")
         raise
@@ -94,7 +99,9 @@ async def read_markdown(md_id: str, request: Request):
                 status_code=404,
             )
 
-        return render_md_page(document.content, request=request, title=document.title)
+        return render_md_page(
+            document.content, request=request, title=document.title, md_id=md_id,
+        )
     except Exception as e:
         logger.error(f"Error rendering markdown document {md_id}: {e}")
         raise

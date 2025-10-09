@@ -31,16 +31,18 @@ body {
 }
 
 main {
-  padding: 2rem;
+  padding: 0 1.0 3rem;
   max-width: 800px;
   margin: auto;
-  min-height: calc(100vh - 1.5rem); /* Set height relative to viewport */
+  min-height: 100vh;
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
 
-  border-style: solid;
-  border-width: 1px;
-  border-color: var(--border-color);
+  border: solid 1px var(--border-color);
   border-radius: 32px 32px 0 0;
+}
+
+.content {
+  padding: 0 1.5rem 0 !important;
 }
 
 p {
@@ -57,21 +59,65 @@ li {
   color: var(--text-color);
 }
 
-.title {
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 1rem;
-  margin-top: -1rem;
-  margin-bottom: 0.5rem;
+  padding: 1rem 0 1rem;
+  margin: 0 1.5rem 0;
+  
+  background-color: color-mix(in srgb, var(--background-color) 80%, transparent);
+  border-bottom: 1px solid transparent;
+  
   font-family: var(--font-monospace);
+
+  transition: all 0.3s ease;
 }
-.title h1 {
+.header.scrolled {
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.5rem 0 0.5rem;
+}
+
+.app-title {
+  background-color: var(--foreground-color);
+  padding: 0 0.65rem;
+  align-content: center;
   margin: 0;
-  font-size: 1rem;
+  height: 2rem;
+
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-color);
+}
+.header-left,
+.header-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Right items aligned right */
+.header-right {
+  justify-content: flex-end;
+}
+
+/* Center always stays centered */
+.header-center {
+  flex: 0 0 auto;
+  text-align: center;
+}
+
+.spacer {
+  border: 1px solid var(--border-color);
 }
 
 a {
@@ -97,6 +143,16 @@ a:focus {
   padding: 0;
   background-color: transparent !important;
   font-family: var(--font) !important;
+}
+
+/* Separator Styles */
+.markdown-body h1,
+.markdown-body h2{
+  border-color: var(--border-color) !important;
+}
+.markdown-body hr {
+  background-color: var(--border-color) !important;
+  border-radius: 16px;
 }
 
 /* Ensure code blocks use our preferred font */
@@ -196,4 +252,49 @@ a:focus {
   font-family: var(--font-monospace);
   font-size: 4rem;
   margin: 0 0 0.75rem;
+}
+
+/* Copy Controls Styles */
+.header-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  aspect-ratio: 1 / 1;
+
+  gap: 0.5rem;
+  padding: 0;
+  background-color: var(--foreground-color);
+  color: var(--text-color);
+
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.header-btn:hover {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--background-color);
+}
+.header-btn .material-symbols-outlined {
+  font-size: 1rem;
+}
+
+.copy-btn.copied {
+  background-color: var(--green);
+  border-color: var(--green);
+  color: var(--background-color);
+}
+
+.copy-btn.error {
+  background-color: var(--red);
+  border-color: var(--red);
+  color: var(--background-color);
+}
+
+.copy-btn .material-symbols-outlined {
+  font-size: 1rem;
 }
