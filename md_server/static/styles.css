@@ -33,8 +33,14 @@ body {
   --main-width: 800px;
 }
 
+.normal {
+  --main-width: 800px;
+}
 .wide {
   --main-width: 1200px;
+}
+.full {
+  --main-width: calc(100vw - 1rem);
 }
 
 main {

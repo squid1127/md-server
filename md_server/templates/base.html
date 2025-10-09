@@ -72,19 +72,52 @@
     <!-- Change Main Width -->
     <script>
       // Width Params
-      const WIDTH_NORMAL = 800;
+      const WIDTH_NORMAL = 800; // Width Considered "Normal"
+      const WIDTH_WIDE = 1200; // Width directly before "Full"
+      const WIDTH_CLASSES = [
+        // Width Classes and their Icons
+        { name: "normal", width: WIDTH_NORMAL, icon: "fullscreen_exit" },
+        { name: "wide", width: WIDTH_WIDE, icon: "arrow_range" },
+        { name: "full", width: null, icon: "fullscreen" },
+      ];
+      
 
       // Change Main Width
       const mainWidthBtn = document.getElementById("main-width");
       mainWidthBtn.addEventListener("click", () => {
-        document.body.classList.toggle("wide");
+        let i = 0;
+        for (; i < WIDTH_CLASSES.length; i++) {
+          if (document.body.classList.contains(WIDTH_CLASSES[i].name)) {
+            break;
+          }
+        }
+
+        // Remove current class
+        if (i < WIDTH_CLASSES.length) {
+          document.body.classList.remove(WIDTH_CLASSES[i].name);
+        }
+        // Add next class
+        i = (i + 1) % WIDTH_CLASSES.length; // Loop back to first
+        if (WIDTH_CLASSES[i].name !== "normal") {
+          document.body.classList.add(WIDTH_CLASSES[i].name);
+        }
+        // Update button icon (with the next class icon)
+        mainWidthBtn.innerHTML = `<span class="material-symbols-outlined">${
+          WIDTH_CLASSES[(i + 1) % WIDTH_CLASSES.length].icon
+        }</span>`;
       });
 
       // Show/Hide Main Width Button based on screen size
       function updateMainWidthButton() {
         if (window.innerWidth < WIDTH_NORMAL) {
+          // Hide
           mainWidthBtn.style.display = "none";
-          document.body.classList.remove("wide");
+          // Remove width classes
+          for (const cls of WIDTH_CLASSES) {
+            document.body.classList.remove(cls.name);
+          }
+          // Reset button icon
+          mainWidthBtn.innerHTML = `<span class="material-symbols-outlined">${WIDTH_CLASSES[1].icon}</span>`;
         } else {
           mainWidthBtn.style.display = "";
         }
