@@ -34,7 +34,13 @@
   <body>
     <main>
       <header class="header">
-        <div class="header-left">{% block header_left %} {%endblock%}</div>
+        <div class="header-left">
+          {% block header_left %}
+          <button id="main-width" class="main-width-btn header-btn">
+            <span class="material-symbols-outlined">arrow_range</span>
+          </button>
+          {%endblock%}
+        </div>
         <div class="header-center">
           <h1 class="app-title">
             <a href="/"
@@ -62,5 +68,33 @@
 
     {# child templates can inject extra scripts here #} {% block scripts %}{%
     endblock %}
+
+    <!-- Change Main Width -->
+    <script>
+      // Width Params
+      const WIDTH_NORMAL = 800;
+
+      // Change Main Width
+      const mainWidthBtn = document.getElementById("main-width");
+      mainWidthBtn.addEventListener("click", () => {
+        document.body.classList.toggle("wide");
+      });
+
+      // Show/Hide Main Width Button based on screen size
+      function updateMainWidthButton() {
+        if (window.innerWidth < WIDTH_NORMAL) {
+          mainWidthBtn.style.display = "none";
+          document.body.classList.remove("wide");
+        } else {
+          mainWidthBtn.style.display = "";
+        }
+      }
+
+      // Initial check
+      updateMainWidthButton();
+
+      // Update button on resize
+      window.addEventListener("resize", updateMainWidthButton);
+    </script>
   </body>
 </html>

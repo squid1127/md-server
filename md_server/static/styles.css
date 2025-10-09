@@ -28,11 +28,18 @@ body {
   color: var(--text-color);
   margin: 0;
   padding: 1.5rem 0.5rem 0;
+
+  /* Main  */
+  --main-width: 800px;
+}
+
+.wide {
+  --main-width: 1200px;
 }
 
 main {
-  padding: 0 1 3rem;
-  max-width: 800px;
+  padding: 0 0 3rem;
+  max-width: var(--main-width);
   margin: auto;
   min-height: 100vh;
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
@@ -104,7 +111,10 @@ li {
   /* display: flex;
   align-items: center;
   justify-content: center; */
-  max-width: calc(min(100vw, 800px) - 11.75rem);
+  max-width: calc(
+    /* *viewport - main padding, main width* - header padding - buttons - extra,title */
+    min(calc(100vw - 1rem), var(--main-width)) - 4rem - calc(calc(32px + 0.5rem) * 3) - 2rem 
+  );
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
