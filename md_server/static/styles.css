@@ -31,7 +31,7 @@ body {
 }
 
 main {
-  padding: 0 1.0 3rem;
+  padding: 0 1 3rem;
   max-width: 800px;
   margin: auto;
   min-height: 100vh;
@@ -63,17 +63,21 @@ li {
   position: sticky;
   top: 0;
   z-index: 100;
-  
+
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   padding: 1rem 0 1rem;
   margin: 0 1.5rem 0;
-  
-  background-color: color-mix(in srgb, var(--background-color) 80%, transparent);
+
+  background-color: color-mix(
+    in srgb,
+    var(--background-color) 80%,
+    transparent
+  );
   border-bottom: 1px solid transparent;
-  
+
   font-family: var(--font-monospace);
 
   transition: all 0.3s ease;
@@ -100,7 +104,7 @@ li {
   /* display: flex;
   align-items: center;
   justify-content: center; */
-  max-width: calc(100vw - 11.75rem);
+  max-width: calc(min(100vw, 800px) - 11.75rem);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -155,7 +159,7 @@ a:focus {
 
 /* Separator Styles */
 .markdown-body h1,
-.markdown-body h2{
+.markdown-body h2 {
   border-color: var(--border-color) !important;
 }
 .markdown-body hr {
@@ -238,16 +242,23 @@ a:focus {
 .admonition-success {
   --admonition-color: var(--green);
 }
-.admonition-warning, .admonition-caution, .admonition-note, .admonition-tip {
+.admonition-warning,
+.admonition-caution,
+.admonition-note,
+.admonition-tip {
   --admonition-color: var(--yellow);
 }
 .admonition-bug {
   --admonition-color: var(--orange);
 }
-.admonition-error, .admonition-danger, .admonition-critical, .admonition-failure {
+.admonition-error,
+.admonition-danger,
+.admonition-critical,
+.admonition-failure {
   --admonition-color: var(--red);
 }
-.admonition-question, .admonition-quote {
+.admonition-question,
+.admonition-quote {
   --admonition-color: var(--purple);
 }
 
