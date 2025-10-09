@@ -54,7 +54,7 @@ docker exec -it <container_id> python cli.py auth new "My Key"
 > [!NOTE]
 > This may change in the future to a more user-friendly method.
 
-## Local Setup
+### Local Setup
 
 To install and run locally, ensure you have Python 3.13+ and Poetry installed. Then:
 
