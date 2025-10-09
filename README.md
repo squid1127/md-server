@@ -25,7 +25,7 @@ A tiny markdown preview server for your services.
 
 ### A sample document
 
-![Screenshot of md-server rendering a markdown file](docs/example-doc.png)
+![Screenshot of md-server rendering a markdown file](docs/example-doc-v2.png)
 
 ## Installation
 
