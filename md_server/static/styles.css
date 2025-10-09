@@ -96,6 +96,14 @@ li {
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-color);
+
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+  max-width: calc(100vw - 11.75rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .header-left,
 .header-right {
