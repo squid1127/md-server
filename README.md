@@ -33,6 +33,8 @@ This project is currently maintained by [squid1127](https://github.com/squid1127
 
 ### Fictional code documentation
 
+This was AI-generated and is completely fictional.
+
 ![Screenshot of md-server rendering a fictional README file](docs/example-readme-v1.png)
 
 > [!NOTE]
