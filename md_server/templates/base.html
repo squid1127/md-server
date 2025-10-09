@@ -72,55 +72,82 @@
     <!-- Change Main Width -->
     <script>
       // Width Params
-      const WIDTH_NORMAL = 800; // Width Considered "Normal"
-      const WIDTH_WIDE = 1200; // Width directly before "Full"
+      const NO_OPTIONS_ICON = null; // Icon when no width options available
       const WIDTH_CLASSES = [
         // Width Classes and their Icons
-        { name: "normal", width: WIDTH_NORMAL, icon: "fullscreen_exit" },
-        { name: "wide", width: WIDTH_WIDE, icon: "arrow_range" },
-        { name: "full", width: null, icon: "fullscreen" },
+        { name: "normal", width: 800, icon: "fullscreen_exit", minWidth: 0 },
+        { name: "wide", width: 1200, icon: "arrow_range", minWidth: 800 },
+        { name: "full", width: null, icon: "fullscreen", minWidth: 1200 },
       ];
       
+      function determineWidthList() {
+        const widthList = [];
+        const screenWidth = window.innerWidth;
+        for (const cls of WIDTH_CLASSES) {
+          if (!cls.minWidth || screenWidth >= cls.minWidth) {
+            widthList.push(cls);
+          }
+        }
+        return widthList;
+      }
+      function applyNextIcon(){
+        const mainWidthBtn = document.getElementById("main-width");
+        const currentClasses = determineWidthList();
+        if (currentClasses.length <= 1) {
+          if (NO_OPTIONS_ICON) {
+            mainWidthBtn.innerHTML = `<span class="material-symbols-outlined">${NO_OPTIONS_ICON}</span>`;
+            mainWidthBtn.style.display = "";
+          } else {
+            mainWidthBtn.style.display = "none";
+          }
+          return;
+        }
+        let i = 0;
+        for (; i < currentClasses.length; i++) {
+          if (document.body.classList.contains(currentClasses[i].name)) {
+            break;
+          }
+        }
+        mainWidthBtn.innerHTML = `<span class="material-symbols-outlined">${
+          currentClasses[(i + 1) % currentClasses.length].icon
+        }</span>`;
+        mainWidthBtn.style.display = "";
+      }
+      function applyWidthClass(index) {
+        // Remove all width classes
+        for (const cls of WIDTH_CLASSES) {
+          document.body.classList.remove(cls.name);
+        }
+        // Add the specified class if not "normal"
+        if (index > 0 && index < WIDTH_CLASSES.length) {
+          document.body.classList.add(WIDTH_CLASSES[index].name);
+        }
+
+        // Show next available option on button
+        applyNextIcon();
+      }
 
       // Change Main Width
       const mainWidthBtn = document.getElementById("main-width");
       mainWidthBtn.addEventListener("click", () => {
+        let currentClasses = determineWidthList();
+        if (currentClasses.length <= 1) {
+          mainWidthBtn.innerHTML = `<span class="material-symbols-outlined">${NO_OPTIONS_ICON}</span>`;
+          return;
+        }
         let i = 0;
-        for (; i < WIDTH_CLASSES.length; i++) {
-          if (document.body.classList.contains(WIDTH_CLASSES[i].name)) {
+        for (; i < currentClasses.length; i++) {
+          if (document.body.classList.contains(currentClasses[i].name)) {
             break;
           }
         }
 
-        // Remove current class
-        if (i < WIDTH_CLASSES.length) {
-          document.body.classList.remove(WIDTH_CLASSES[i].name);
-        }
-        // Add next class
-        i = (i + 1) % WIDTH_CLASSES.length; // Loop back to first
-        if (WIDTH_CLASSES[i].name !== "normal") {
-          document.body.classList.add(WIDTH_CLASSES[i].name);
-        }
-        // Update button icon (with the next class icon)
-        mainWidthBtn.innerHTML = `<span class="material-symbols-outlined">${
-          WIDTH_CLASSES[(i + 1) % WIDTH_CLASSES.length].icon
-        }</span>`;
+        applyWidthClass((i + 1) % currentClasses.length);
       });
 
       // Show/Hide Main Width Button based on screen size
       function updateMainWidthButton() {
-        if (window.innerWidth < WIDTH_NORMAL) {
-          // Hide
-          mainWidthBtn.style.display = "none";
-          // Remove width classes
-          for (const cls of WIDTH_CLASSES) {
-            document.body.classList.remove(cls.name);
-          }
-          // Reset button icon
-          mainWidthBtn.innerHTML = `<span class="material-symbols-outlined">${WIDTH_CLASSES[1].icon}</span>`;
-        } else {
-          mainWidthBtn.style.display = "";
-        }
+        applyNextIcon();
       }
 
       // Initial check
@@ -128,6 +155,18 @@
 
       // Update button on resize
       window.addEventListener("resize", updateMainWidthButton);
+
+
+
+      // Header scroll effect
+      window.addEventListener("scroll", () => {
+        const header = document.querySelector(".header");
+        if (window.scrollY < 32) {
+          header.classList.remove("scrolled");
+        } else {
+          header.classList.add("scrolled");
+        }
+      });
     </script>
   </body>
 </html>
