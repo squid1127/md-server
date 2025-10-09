@@ -31,12 +31,16 @@ This project is currently maintained by [squid1127](https://github.com/squid1127
 
 ![Screenshot of md-server rendering a markdown file](docs/example-doc-v2.png)
 
+### Fictional code documentation
+
+![Screenshot of md-server rendering a fictional README file](docs/example-readme-v1.png)
+
 > [!NOTE]
 > The frontend is still a work in progress and may change in the future. Probably doesn't help that it was made from scratch...
 
 ## Installation
 
-> *"If I were you I wouldn't use this project - it's probably a hot mess"* - squid1127
+> _"If I were you I wouldn't use this project - it's probably a hot mess"_ - squid1127
 
 > [!NOTE]
 > Refer to [environment variables](docs/env.md) for configuration options.
