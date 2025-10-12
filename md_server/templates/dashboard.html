@@ -1,0 +1,32 @@
+<!-- md-server - Interactive Markdown Editor -->
+{% extends 'base.html' %}
+
+<!-- Header Content -->
+{% block head %}
+<link rel="stylesheet" href="/static/editor.css" />
+{% endblock %}
+
+<!-- Markdown Content -->
+{% block content %}
+<section class="dashboard content">
+  <div class="dashboard-header">
+    <h2>Dashboard</h2>
+  </div>
+  <div class="dashboard-container">
+    <div class="dashboard-box">
+      <h3>User Info</h3>
+      <p><strong>Name:</strong> {{ user.name if user.name else "N/A" }}</p>
+      <p><strong>Created At:</strong> {{ user.created_at.strftime('%Y-%m-%d %H:%M:%S %Z') }}</p>
+    </div>
+  </div>
+{% endblock %}
+
+<!-- Header Extra Content -->
+{% block header_right %}
+{% endblock %}
+
+<!-- Scripts -->
+{% block scripts %}
+<script>
+</script>
+{% endblock %}

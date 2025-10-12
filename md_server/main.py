@@ -2,17 +2,18 @@
 
 import os
 from fastapi import FastAPI, Request, Response
-from fastapi.responses import HTMLResponse, PlainTextResponse, JSONResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
 
 from .static import static_files
 from .templates import templates
 from .constants import APP_NAME, HOME_PAGE, APP_SOURCE
-from .md import render_md_page
+from .md import render_md_page, render_markdown
 from .logging_config import setup_logging, get_logger
 from .middleware import RequestLoggingMiddleware, NoCacheMiddleware
 from .api import router as api_router
+from .dashboard import router as dashboard_router
 
 
 load_dotenv()  # Load environment variables from a .env file if present
@@ -46,6 +47,7 @@ app = FastAPI(title=APP_NAME, version="0.1.0", lifespan=lifespan)
 
 app.mount("/static", static_files)
 app.include_router(api_router, prefix="/api")
+app.include_router(dashboard_router, prefix="/dash")
 app.add_middleware(RequestLoggingMiddleware)
 # Optionally add NoCacheMiddleware based on environment variable
 if os.getenv("NO_CACHE", "false").lower() == "true":
@@ -74,7 +76,7 @@ async def read_root(request: Request):
 
 @app.get(
     "/d/{md_id}",
-    tags=["UI"],
+    tags=["UI", "Render", "Document"],
     name="Render Markdown Document",
     response_class=HTMLResponse,
 )
@@ -100,7 +102,10 @@ async def read_markdown(md_id: str, request: Request):
             )
 
         return render_md_page(
-            document.content, request=request, title=document.title, md_id=md_id,
+            document.content,
+            request=request,
+            title=document.title,
+            md_id=md_id,
         )
     except Exception as e:
         logger.error(f"Error rendering markdown document {md_id}: {e}")
@@ -134,21 +139,64 @@ async def read_raw_markdown(md_id: str):
 
 
 @app.get(
-    "/render",
+    "/editor",
     tags=["UI"],
-    name="Render Arbitrary Markdown",
+    name="Interactive Markdown Editor",
     response_class=HTMLResponse,
 )
-async def render_markdown_endpoint(request: Request):
+async def editor(request: Request):
+    """Render the editor page."""
+    logger.info(f"Editor page requested from {request.client.host}")
+    try:
+        return templates.TemplateResponse(
+            "editor.html",
+            {
+                "request": request,
+                "app_name": APP_NAME,
+                "page_title": "Editor",
+                "initial_width_index": 1,  # Default to medium width (More space because dual panes)
+            },
+        )
+    except Exception as e:
+        logger.error(f"Error rendering editor page: {e}")
+        raise
+
+
+@app.get(
+    "/render",
+    tags=["UI", "Render"],
+    name="Render document page from query",
+    response_class=HTMLResponse,
+)
+async def render_markdown_endpoint(
+    request: Request, md: str = "", title: str = "Document"
+):
     """Render arbitrary markdown content provided via query parameter."""
     logger.info(f"Arbitrary markdown rendering requested from {request.client.host}")
 
-    md = request.query_params.get("md", "")
-    title = request.query_params.get("title", "Document")
     try:
         return render_md_page(md, request=request, title=title)
     except Exception as e:
         logger.error(f"Error rendering arbitrary markdown: {e}")
+        raise
+
+
+@app.post(
+    "/render-embed",
+    tags=["API", "Render"],
+    name="Render HTML from a JSON body",
+    response_class=HTMLResponse,
+)
+async def render_markdown_embed(request: Request):
+    """Render markdown content provided in json body."""
+    logger.info(f"Embedded markdown rendering requested from {request.client.host}")
+
+    try:
+        data = await request.json()
+        md = data.get("md", "")
+        return render_markdown(md)
+    except Exception as e:
+        logger.error(f"Error rendering embedded markdown: {e}")
         raise
 
 

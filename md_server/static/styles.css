@@ -11,6 +11,7 @@
   /* Background */
   --background-color: black;
   --foreground-color: #141516;
+  --foreground-color-secondary: #1b1c1e;
   --border-color: #222426;
 
   /* Text */
@@ -47,7 +48,8 @@ main {
   padding: 0 0 3rem;
   max-width: var(--main-width);
   margin: auto;
-  min-height: 100vh;
+  /* Height + top padding */
+  min-height: calc(100vh - 1.5rem);
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
 
   border: solid 1px var(--border-color);

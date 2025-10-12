@@ -51,3 +51,11 @@ class APIUsageLog(LoggedDocument):
 
     class Settings:
         name = "md_server.api_usage_logs"
+        
+class User(LoggedDocument):
+    uid_sha256: str = Field(index=True, unique=True) # Hashed user ID from Authentik
+    created_at: datetime.datetime = Field(default_factory=lambda: datetime.datetime.now(datetime.timezone.utc))
+    name: Optional[str] = None
+
+    class Settings:
+        name = "md_server.users"

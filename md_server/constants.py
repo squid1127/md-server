@@ -5,6 +5,8 @@ APP_DESCRIPTION = "A tiny markdown preview server for your services."
 APP_SOURCE = "https://github.com/squid1127/md-server"
 
 API_KEY_HEADER = "X-API-KEY"
+AUTHENTIK_ID_HEADER = "x-authentik-uid"
+AUTHENTIK_NAME_HEADER = "x-authentik-name"
 
 HOME_PAGE = f"""# {APP_NAME}
 

@@ -33,48 +33,70 @@
 {% endif %} {% endblock %} {% block scripts %} {% if md_id %}
 <script>
   // Copy markdown to clipboard
-  document.addEventListener("DOMContentLoaded", function () {
+  async function copyToClipboard() {
+    const copyBtn = document.getElementById("copy-markdown-btn");
+    try {
+      // Fetch raw markdown content
+      const response = await fetch("/raw/{{ md_id }}");
+      if (!response.ok) {
+        throw new Error("Failed to fetch markdown content");
+      }
+
+      const markdown = await response.text();
+
+      // Copy to clipboard
+      await navigator.clipboard.writeText(markdown);
+
+      // Visual feedback
+      const originalText = copyBtn.innerHTML;
+      copyBtn.innerHTML =
+        '<span class="material-symbols-outlined">check</span>';
+      copyBtn.classList.add("copied");
+
+      setTimeout(() => {
+        copyBtn.innerHTML = originalText;
+        copyBtn.classList.remove("copied");
+      }, 2000);
+    } catch (error) {
+      console.error("Failed to copy markdown:", error);
+
+      // Error feedback
+      const originalText = copyBtn.innerHTML;
+      copyBtn.innerHTML =
+        '<span class="material-symbols-outlined">error</span>';
+      copyBtn.classList.add("error");
+
+      setTimeout(() => {
+        copyBtn.innerHTML = originalText;
+        copyBtn.classList.remove("error");
+      }, 2000);
+    }
+  }
+
+  function loaded() {
     const copyBtn = document.getElementById("copy-markdown-btn");
 
-    copyBtn.addEventListener("click", async function () {
-      try {
-        // Fetch raw markdown content
-        const response = await fetch("/raw/{{ md_id }}");
-        if (!response.ok) {
-          throw new Error("Failed to fetch markdown content");
-        }
+    copyBtn.addEventListener("click", copyToClipboard);
 
-        const markdown = await response.text();
-
-        // Copy to clipboard
-        await navigator.clipboard.writeText(markdown);
-
-        // Visual feedback
-        const originalText = copyBtn.innerHTML;
-        copyBtn.innerHTML =
-          '<span class="material-symbols-outlined">check</span>';
-        copyBtn.classList.add("copied");
-
-        setTimeout(() => {
-          copyBtn.innerHTML = originalText;
-          copyBtn.classList.remove("copied");
-        }, 2000);
-      } catch (error) {
-        console.error("Failed to copy markdown:", error);
-
-        // Error feedback
-        const originalText = copyBtn.innerHTML;
-        copyBtn.innerHTML =
-          '<span class="material-symbols-outlined">error</span>';
-        copyBtn.classList.add("error");
-
-        setTimeout(() => {
-          copyBtn.innerHTML = originalText;
-          copyBtn.classList.remove("error");
-        }, 2000);
-      }
-    });
-  });
+    if (window.cmdPalette) {
+      window.cmdPalette.registerCommands([
+        {
+          name: "Copy Markdown Source",
+          action: copyToClipboard,
+          icon: "content_copy",
+          group: "Page",
+        },
+        {
+          name: "Open Raw Markdown",
+          action: () => window.open(`/raw/{{ md_id }}`, "_blank"),
+          icon: "code",
+          group: "Page",
+        },
+      ]);
+    } else {
+      console.warn("Command Palette not loaded");
+    }
+  }
+  document.addEventListener("DOMContentLoaded", loaded);
 </script>
-{% endif %}
-{% endblock %}
+{% endif %} {% endblock %}

@@ -3,7 +3,7 @@
 import os
 from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
-from .models import MarkdownDocument, APIKey, APIUsageLog
+from .models import MarkdownDocument, APIKey, APIUsageLog, User
 from .logging_config import get_logger
 
 logger = get_logger(__name__)
@@ -33,7 +33,7 @@ async def init_db():
         logger.info(f"Using database: {database.name}")
         
         await init_beanie(
-            database=database, document_models=[MarkdownDocument, APIKey, APIUsageLog]
+            database=database, document_models=[MarkdownDocument, APIKey, APIUsageLog, User]
         )
         logger.info("Beanie initialization completed successfully")
         
