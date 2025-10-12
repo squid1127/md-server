@@ -2,6 +2,10 @@
 
 A tiny markdown preview server for your services.
 
+## Branch: rev1
+
+This branch represents the original version of the project - a templated FastAPI app with basic markdown rendering that has gotten really messy, and is no longer maintained. It is kept here for reference only.
+
 ## Maintenance
 
 This project is currently maintained by [squid1127](https://github.com/squid1127), although not very well (I suck at frontend lol ~ squid). Feel free to open issues or PRs.
